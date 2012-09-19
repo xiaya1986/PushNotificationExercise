@@ -14,6 +14,7 @@ using Microsoft.Phone.Notification;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
+using System.Collections.ObjectModel;
 
 
 namespace NotificationsTestClient
@@ -62,6 +63,9 @@ namespace NotificationsTestClient
                     SubscribeToService();
 
                     //TODO: Place Notification
+                    Trace("Subscribe to the channel to Tile and Toast notifications");
+                    SubscribeToNotifications();
+
 
                     Dispatcher.BeginInvoke(() => UpdateStatus("Channel recovered"));
                 }
@@ -112,6 +116,12 @@ namespace NotificationsTestClient
 
             //general error handling for push channel
             httpChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(httpChannel_ExceptionOccurred);
+
+            //////////////////////////////////////////
+            // Toast Notification 
+            //////////////////////////////////////////
+            //subscrive to toast notification when running app
+            httpChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(httpChannel_ShellToastNotificationReceived);
         }
 
         private void SubscribeToService()
@@ -129,6 +139,55 @@ namespace NotificationsTestClient
             };
             client.DownloadStringAsync(new Uri(theUri));
         }
+
+        private void SubscribeToNotifications()
+        {
+            //////////////////////////////////////////
+            // Bind to Toast Notification 
+            //////////////////////////////////////////
+            try
+            {
+                if (httpChannel.IsShellToastBound == true)
+                {
+                    Trace("Already bounded (register) to Toast notification");
+                }
+                else
+                {
+                    Trace("Registering to Toast Notifications");
+                    httpChannel.BindToShellToast();
+                }
+            }
+            catch (Exception ex)
+            {
+                // handle error here
+            }
+
+            //////////////////////////////////////////
+            // Bind to Tile Notification 
+            //////////////////////////////////////////
+            try
+            {
+                if (httpChannel.IsShellTileBound == true)
+                {
+                    Trace("Already bounded (register) to Tile Notifications");
+                }
+                else
+                {
+                    Trace("Registering to Tile Notifications");
+
+                    // you can register the phone application to receive tile images from remote servers [this is optional]
+                    Collection<Uri> uris = new Collection<Uri>();
+                    uris.Add(new Uri("http://www.larvalabs.com"));
+
+                    httpChannel.BindToShellTile(uris);
+                }
+            }
+            catch (Exception ex)
+            {
+                //handle error here
+            }
+        }
+
         #endregion
 
         #region Channel event handlers
@@ -137,6 +196,8 @@ namespace NotificationsTestClient
             Trace("Channel opened. Got Uri:\n" + httpChannel.ChannelUri.ToString());
             Trace("Subscribing to channel events");
             SubscribeToService();
+
+            SubscribeToNotifications();
 
             Dispatcher.BeginInvoke(() => UpdateStatus("Channel created successfully"));
         }
@@ -160,6 +221,22 @@ namespace NotificationsTestClient
 
             Trace("===============================================");
         }
+
+        void httpChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
+        {
+            Trace("===============================================");
+            Trace("Toast/Tile notification arrived:");
+            foreach (var key in e.Collection.Keys)
+            {
+                string msg = e.Collection[key];
+
+                Trace(msg);
+                Dispatcher.BeginInvoke(() => this.textBlock5.Text = "Toast/Tile message: " + msg);
+            }
+
+            Trace("===============================================");
+        }
+
         #endregion
     }
 }

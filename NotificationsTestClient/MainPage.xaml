@@ -32,6 +32,8 @@
             <TextBlock Height="123" HorizontalAlignment="Left" Margin="36,84,0,0" Name="textBlock2" VerticalAlignment="Top" Width="389" />
             <TextBlock Height="30" HorizontalAlignment="Left" Text="Status: " Margin="12,510,0,0" Name="textBlock3" VerticalAlignment="Top" />
             <TextBlock Height="31" HorizontalAlignment="Left" Margin="12,546,0,0" Name="txtStatus" Text="Not Connected" VerticalAlignment="Top" Width="438" />
+            <TextBlock Height="30" HorizontalAlignment="Left" Margin="12,230,0,0" Name="textBlock4" Text="Toast message from server :" VerticalAlignment="Top" />
+            <TextBlock Height="116" HorizontalAlignment="Left" Margin="36,279,0,0" Name="textBlock5" VerticalAlignment="Top" Width="389" />
         </Grid>
     </Grid>
  

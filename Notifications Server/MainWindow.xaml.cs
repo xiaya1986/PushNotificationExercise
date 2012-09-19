@@ -27,6 +27,9 @@ namespace Notifications_Server
         #region Private variables
         private ObservableCollection<PushNotificationsLogMsg> trace = new ObservableCollection<PushNotificationsLogMsg>();
         private RawPushNotificationMessage rawPushNotificationMessage = new RawPushNotificationMessage(MessageSendPriority.High);
+        private TilePushNotificationMessage tilePushNotificationMessage = new TilePushNotificationMessage(MessageSendPriority.High);
+        private ToastPushNotificationMessage toastPushNotificationMessage = new ToastPushNotificationMessage(MessageSendPriority.High);
+
         #endregion
 
         public MainWindow()
@@ -76,6 +79,18 @@ namespace Notifications_Server
         private void sendToast()
         {
             //TODO - Add TOAST notifications sending logic here
+            string msg = txtToastMessage.Text;
+            txtToastMessage.Text = "";
+            List<Uri> subscribers = RegistrationService.GetSubscribers();
+
+            toastPushNotificationMessage.Title = "WEATHER ALERT";
+            toastPushNotificationMessage.SubTitle = msg;
+
+            subscribers.ForEach(uri =>
+                toastPushNotificationMessage.SendAsync(uri,
+                (result) => OnMessageSent(NotificationType.Toast, result),
+                (result) => { }));
+
         }
 
         private void sendTile()
@@ -114,9 +129,14 @@ namespace Notifications_Server
             return payload;
         }
 
-        private void btnSend_Click(object sender, RoutedEventArgs e)
+        private void btnSendRAW_Click(object sender, RoutedEventArgs e)
         {
             sendHttp();
+        }
+
+        private void btnSendToast_Click(object sender, RoutedEventArgs e)
+        {
+            sendToast();
         }
 
     }
