@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
+using System.IO.IsolatedStorage;
 
 
 namespace NotificationsTestClient
@@ -32,6 +33,9 @@ namespace NotificationsTestClient
         const string channelName = "NotificationChannel";
         const string fileName = "PushNotificationsSettings.dat";
         const int pushConnectTimeout = 30;
+        const string toastMessage = "Toast";
+        private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+        private IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForApplication();
 
         #region Tracing and Status Updates
         private void UpdateStatus(string message)
@@ -232,11 +236,45 @@ namespace NotificationsTestClient
 
                 Trace(msg);
                 Dispatcher.BeginInvoke(() => this.textBlock5.Text = "Toast/Tile message: " + msg);
+
+                using (var file = appStorage.OpenFile(toastMessage, FileMode.Create))
+                {
+                    using (StreamWriter sw = new StreamWriter(file))
+                    {
+                        sw.WriteLine(msg);
+                    }
+                }
             }
 
             Trace("===============================================");
         }
 
         #endregion
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (appStorage.FileExists(toastMessage))
+                {
+                    using (var file = appStorage.OpenFile(toastMessage, FileMode.Open))
+                    {
+                        using (StreamReader sr = new StreamReader(file))
+                        {
+                            textBlock5.Text = sr.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            catch (IsolatedStorageException ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
+
     }
 }
