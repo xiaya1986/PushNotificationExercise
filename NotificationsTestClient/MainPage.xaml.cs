@@ -70,7 +70,6 @@ namespace NotificationsTestClient
                     Trace("Subscribe to the channel to Tile and Toast notifications");
                     SubscribeToNotifications();
 
-
                     Dispatcher.BeginInvoke(() => UpdateStatus("Channel recovered"));
                 }
                 else
@@ -272,9 +271,5 @@ namespace NotificationsTestClient
                 MessageBox.Show(ex.Message);
             }
         }
-
-
-
-
     }
 }

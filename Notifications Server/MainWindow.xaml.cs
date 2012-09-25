@@ -35,6 +35,7 @@ namespace Notifications_Server
         public MainWindow()
         {
             InitializeComponent();
+            InitializePic();
             //Log.ItemsSource = trace;
             RegistrationService.Subscribed += new EventHandler<RegistrationService.SubscriptionEventArgs>(RegistrationService_Subscribed);
         }
@@ -139,5 +140,66 @@ namespace Notifications_Server
             sendToast();
         }
 
+
+        private void InitializePic()
+        {
+            Dictionary<string, string> weather = new Dictionary<string, string>();
+            weather.Add("Chance_Of_Showers", "Chance Of Showers");
+            weather.Add("Clear", "Clear");
+            weather.Add("Cloudy", "Cloudy");
+            weather.Add("Cloudy_Period", "Cloudy Period");
+            weather.Add("Cloudy_With_Drizzle", "Cloudy With Drizzle");
+            weather.Add("Few_Flurries", "Few Flurries");
+            weather.Add("Few_Flurries_Night", "Few Flurries Night");
+            weather.Add("Few_Showers", "Few Showers");
+            weather.Add("Flurries", "Flurries");
+            weather.Add("Fog", "Fog");
+            weather.Add("Freezing_Rain", "Freezing Rain");
+            weather.Add("Mostly_Cloudy", "Mostly Cloudy");
+            weather.Add("Mostly_Sunny", "Mostly Sunny");
+            weather.Add("Rain", "Rain");
+            weather.Add("Rain_Or_Snow", "Rain Or Snow");
+            weather.Add("Risk_Of_Thundershowers", "Risk Of Thundershowers");
+            weather.Add("Snow", "Snow");
+            weather.Add("Sunny", "Sunny");
+            weather.Add("Thunder_Showers", "Thunder Showers");
+            weather.Add("Thunderstorms", "Thunderstorms");
+            weather.Add("Wet_Flurries", "Wet Flurries");
+            weather.Add("Wet_Flurries_Night", "Wet Flurries Night");
+
+            cmbPic.ItemsSource = weather;
+            cmbPic.DisplayMemberPath = "Value";
+            cmbPic.SelectedValuePath = "Key";
+            cmbPic.SelectedIndex = 0;
+        }
+
+        private void InitializeLocations()
+        {
+            List<string> projects = new List<string>();
+            projects.Add("ATT");
+            projects.Add("Import/Export");
+            projects.Add("Model");
+            projects.Add("Language");
+            projects.Add("Designer");
+
+            cmbProject.ItemsSource = projects;
+            cmbProject.SelectedIndex = 0;
+        }
+
+        private void btnSendTile_Click(object sender, RoutedEventArgs e)
+        {
+            string picType = cmbPic.SelectedValue as string;
+            int passRate = (int)(sld.Value);
+            string project = cmbProject.SelectedValue as string;
+            List<Uri> subscribers = RegistrationService.GetSubscribers();
+
+            tilePushNotificationMessage.BackgroundImageUri = new Uri("/Images/" + picType + ".png", UriKind.Relative);
+            tilePushNotificationMessage.Count = passRate;
+            tilePushNotificationMessage.Title = project;
+
+            subscribers.ForEach(uri => tilePushNotificationMessage.SendAsync(uri,
+                (result) => OnMessageSent(NotificationType.Token, result),
+                (result) => { }));
+        }
     }
 }

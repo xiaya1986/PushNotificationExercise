@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ImageResourceConverter.cs" />
     <Compile Include="PushNotificationsLogMsg.cs" />
     <Compile Include="Service\IRegistrationService.cs" />
     <Compile Include="Service\RegistrationService.cs" />
@@ -101,6 +102,31 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Chance_Of_Showers.png" />
+    <Resource Include="Images\Clear.png" />
+    <Resource Include="Images\Cloudy.png" />
+    <Resource Include="Images\Cloudy_Period.png" />
+    <Resource Include="Images\Cloudy_With_Dizzle.png" />
+    <Resource Include="Images\Few_Flurries.png" />
+    <Resource Include="Images\Few_Flurries_Night.png" />
+    <Resource Include="Images\Few_Showers.png" />
+    <Resource Include="Images\Flurries.png" />
+    <Resource Include="Images\Fog.png" />
+    <Resource Include="Images\Freezing_Rain.png" />
+    <Resource Include="Images\Mostly_Cloudy.png" />
+    <Resource Include="Images\Mostly_Sunny.png" />
+    <Resource Include="Images\Rain.png" />
+    <Resource Include="Images\Rain_Or_Snow.png" />
+    <Resource Include="Images\Risk_Of_Thundershowers.png" />
+    <Resource Include="Images\Snow.png" />
+    <Resource Include="Images\Sunny.png" />
+    <Resource Include="Images\Thunderstorms.png" />
+    <Resource Include="Images\Thunder_Showers.png" />
+    <Resource Include="Images\Wet_Flurries.png" />
+    <Resource Include="Images\Wet_Flurries_Night.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
