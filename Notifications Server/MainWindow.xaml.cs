@@ -36,6 +36,7 @@ namespace Notifications_Server
         {
             InitializeComponent();
             InitializePic();
+            InitializeProjects();
             //Log.ItemsSource = trace;
             RegistrationService.Subscribed += new EventHandler<RegistrationService.SubscriptionEventArgs>(RegistrationService_Subscribed);
         }
@@ -97,6 +98,18 @@ namespace Notifications_Server
         private void sendTile()
         {
             //TODO - Add TILE notifications sending logic here
+            string picType = cmbPic.SelectedValue as string;
+            int passRate = (int)(sld.Value);
+            string project = cmbProject.SelectedValue as string;
+            List<Uri> subscribers = RegistrationService.GetSubscribers();
+
+            tilePushNotificationMessage.BackgroundImageUri = new Uri("Images/" + picType + ".png", UriKind.Relative);
+            tilePushNotificationMessage.Count = passRate;
+            tilePushNotificationMessage.Title = project;
+
+            subscribers.ForEach(uri => tilePushNotificationMessage.SendAsync(uri,
+                (result) => OnMessageSent(NotificationType.Token, result),
+                (result) => { }));
         }
 
         private void sendRemoteTile()
@@ -140,6 +153,10 @@ namespace Notifications_Server
             sendToast();
         }
 
+        private void btnSendTile_Click(object sender, RoutedEventArgs e)
+        {
+            sendTile();
+        }
 
         private void InitializePic()
         {
@@ -173,7 +190,7 @@ namespace Notifications_Server
             cmbPic.SelectedIndex = 0;
         }
 
-        private void InitializeLocations()
+        private void InitializeProjects()
         {
             List<string> projects = new List<string>();
             projects.Add("ATT");
@@ -184,22 +201,6 @@ namespace Notifications_Server
 
             cmbProject.ItemsSource = projects;
             cmbProject.SelectedIndex = 0;
-        }
-
-        private void btnSendTile_Click(object sender, RoutedEventArgs e)
-        {
-            string picType = cmbPic.SelectedValue as string;
-            int passRate = (int)(sld.Value);
-            string project = cmbProject.SelectedValue as string;
-            List<Uri> subscribers = RegistrationService.GetSubscribers();
-
-            tilePushNotificationMessage.BackgroundImageUri = new Uri("/Images/" + picType + ".png", UriKind.Relative);
-            tilePushNotificationMessage.Count = passRate;
-            tilePushNotificationMessage.Title = project;
-
-            subscribers.ForEach(uri => tilePushNotificationMessage.SendAsync(uri,
-                (result) => OnMessageSent(NotificationType.Token, result),
-                (result) => { }));
         }
     }
 }
