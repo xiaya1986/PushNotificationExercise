@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.Collections.ObjectModel;
 using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Shell;
 
 
 namespace NotificationsTestClient
@@ -286,6 +287,47 @@ namespace NotificationsTestClient
 
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            // Reset Tile
+            var appTile = ShellTile.ActiveTiles.FirstOrDefault();
+            if (appTile == null)
+            {
+                return;
+                //Don't create...just update
+            }
+            else
+            {
+                appTile.Update(new StandardTileData()
+                {
+                    Count = 0,
+                    Title = GetWinPhoneAttribute("Title"),
+                    BackgroundImage = new Uri("ApplicationIcon.png", UriKind.Relative),
+                });
+            }
+        }
+
+        private static string GetWinPhoneAttribute(string attributeName)
+        {
+            string ret = string.Empty;
+
+            try
+            {
+                XElement xe = XElement.Load("WMAppManifest.xml");
+                var attr = (from manifest in xe.Descendants("App")
+                            select manifest).SingleOrDefault();
+                if (attr != null)
+                    ret = attr.Attribute(attributeName).Value;
+            }
+            catch
+            {
+                // Ignore errors in case this method is called
+                // from design time in VS.NET
+            }
+
+            return ret;
         }
     }
 }
