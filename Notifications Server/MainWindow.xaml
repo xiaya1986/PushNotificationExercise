@@ -22,9 +22,9 @@
             <Slider x:Name="sld" Height="34" HorizontalAlignment="Left" VerticalAlignment="Bottom" Maximum="100" Minimum="1" Orientation="Horizontal" Value="72" Width="148"/>
         </Grid>
         
-        <Grid Width="128" Height="128" TextOptions.TextHintingMode="Animated" Margin="202,12,173,170">
+        <Grid Width="128" Height="128" TextOptions.TextHintingMode="Animated" Margin="202,12,173,170" Background="Black">
             <Image Source="{Binding ElementName=cmbPic, Path=SelectedItem.Key, Converter={StaticResource ImageUriConverter}, ConverterParameter=Images/\{0\}.png}" Stretch="UniformToFill"/>
-            <TextBlock VerticalAlignment="Top" Margin="8,4,0,22" Foreground="Black" FontWeight="Normal" Text="{Binding ElementName=sld, Path=Value, StringFormat='{}{0:0}%'}" FontSize="34" />
+            <TextBlock VerticalAlignment="Top" Margin="8,4,0,22" Foreground="White" FontWeight="Normal" Text="{Binding ElementName=sld, Path=Value, StringFormat='{}{0:0}%'}" FontSize="34" />
             <TextBlock VerticalAlignment="Bottom" Margin="8,0,0,26" Foreground="White" FontSize="18" FontWeight="Normal" Text="{Binding ElementName=cmbProject, Path=SelectedItem}" />
             <TextBlock VerticalAlignment="Bottom" Margin="8,0,0,12" Foreground="White" FontSize="12" FontWeight="Normal" Text="{Binding ElementName=cmbPic, Path=SelectedItem.Value}" />
         </Grid>

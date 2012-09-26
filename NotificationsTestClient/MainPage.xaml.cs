@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
 using System.IO.IsolatedStorage;
+using System.Windows.Media.Imaging;
 
 
 namespace NotificationsTestClient
@@ -92,7 +93,7 @@ namespace NotificationsTestClient
             }
         }
 
-        private void ParseRAWPayload(Stream e, out string content)
+        private void ParseRAWPayload(Stream e, out string content, out string project, out string passRate, out string picType)
         {
             XDocument document;
 
@@ -106,6 +107,18 @@ namespace NotificationsTestClient
             content = (from c in document.Descendants("MessageUpdate")
                        select c.Element("Message").Value).FirstOrDefault();
             Trace("Got content: " + content);
+
+            project = (from c in document.Descendants("MessageUpdate")
+                           select c.Element("Project").Value).FirstOrDefault();
+            Trace("Got Project: " + project);
+
+            passRate = (from c in document.Descendants("MessageUpdate")
+                        select c.Element("PassRate").Value).FirstOrDefault();
+            Trace("Got PassRate: " + passRate);
+
+            picType = (from c in document.Descendants("MessageUpdate")
+                        select c.Element("PicType").Value).FirstOrDefault();
+            Trace("Got PicType: " + picType);
         }
 
         #region Subscriptions
@@ -210,16 +223,19 @@ namespace NotificationsTestClient
             Dispatcher.BeginInvoke(() => UpdateStatus(e.ErrorType + " occurred: " + e.Message));
         }
 
+        // RAW notification
         void httpChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
         {
-
             Trace("===============================================");
             Trace("RAW notification arrived:");
 
-            string content;
-            ParseRAWPayload(e.Notification.Body, out content);
+            string content, project, passRate, picType;
+            ParseRAWPayload(e.Notification.Body, out content, out project, out passRate, out picType);
 
             Dispatcher.BeginInvoke(() => this.textBlock2.Text = content);
+            Dispatcher.BeginInvoke(() => this.textBlockListTitle.Text = project);
+            Dispatcher.BeginInvoke(() => this.textBlockPassrate.Text = passRate);
+            Dispatcher.BeginInvoke(() => this.imgPics.Source = new BitmapImage(new Uri(@"Images/" + picType + ".png", UriKind.Relative)));
             Trace(string.Format("Got message: {0}", content));
 
             Trace("===============================================");

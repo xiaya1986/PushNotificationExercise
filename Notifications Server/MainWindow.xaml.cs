@@ -69,13 +69,15 @@ namespace Notifications_Server
             //Get the list of subscribed WP7 clients
             List<Uri> subscribers = RegistrationService.GetSubscribers();
             //Prepare payload
-            byte[] payload = prepareRAWPayload(textBox1.Text);
+            byte[] payload = prepareRAWPayload(textBox1.Text,
+                cmbProject.SelectedValue as string,
+                sld.Value.ToString("F1"),
+                cmbPic.SelectedValue as string);
 
             rawPushNotificationMessage.RawData = payload;
             subscribers.ForEach(uri => rawPushNotificationMessage.SendAsync(uri,
                 (result) => OnMessageSent(NotificationType.Raw, result),
                 (result) => { }));
-
         }
 
         private void sendToast()
@@ -92,7 +94,6 @@ namespace Notifications_Server
                 toastPushNotificationMessage.SendAsync(uri,
                 (result) => OnMessageSent(NotificationType.Toast, result),
                 (result) => { }));
-
         }
 
         private void sendTile()
@@ -117,7 +118,7 @@ namespace Notifications_Server
             //TODO - Add TILE with remote image URI logic here
         }
 
-        private static byte[] prepareRAWPayload(string content)
+        private static byte[] prepareRAWPayload(string content, string project, string passRate, string picType)
         {
             MemoryStream stream = new MemoryStream();
 
@@ -129,6 +130,18 @@ namespace Notifications_Server
 
             writer.WriteStartElement("Message");
             writer.WriteValue(content);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("Project");
+            writer.WriteValue(project);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("PassRate");
+            writer.WriteValue(passRate);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("PicType");
+            writer.WriteValue(picType);
             writer.WriteEndElement();
 
             writer.WriteStartElement("LastUpdated");
