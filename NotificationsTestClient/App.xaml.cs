@@ -37,6 +37,9 @@ namespace NotificationsTestClient
             // Phone-specific initialization
             InitializePhoneApplication();
 
+            // Create the shell tile schedule instance
+            CreateShellTileSchedule();
+
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -57,6 +60,22 @@ namespace NotificationsTestClient
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+        }
+
+        // To store the instance for the application lifetime
+        private ShellTileSchedule shellTileSchedule;
+
+        /// <summary>
+        /// Create the application shell tile schedule instance
+        /// </summary>
+        private void CreateShellTileSchedule()
+        {
+            shellTileSchedule = new ShellTileSchedule();
+            shellTileSchedule.Recurrence = UpdateRecurrence.Interval;
+            shellTileSchedule.Interval = UpdateInterval.EveryHour;
+            shellTileSchedule.StartTime = DateTime.Now;
+            shellTileSchedule.RemoteImageUri = new Uri(@"http://cdn3.afterdawn.fi/news/small/windows-phone-7-series.png");
+            shellTileSchedule.Start();
         }
 
         // Code to execute when the application is launching (eg, from Start)
