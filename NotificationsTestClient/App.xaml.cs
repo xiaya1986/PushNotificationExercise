@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace NotificationsTestClient
 {
@@ -82,18 +84,51 @@ namespace NotificationsTestClient
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            TileRefreshNeeded = true;
+
+            InitializeComponents();
+            RefreshTilesPinState();
+
+            PushHandler = new PushHandler(Resources["PushStatus"] as Status, Components, Dispatcher);
+            PushHandler.EstablishConnections();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (!e.IsApplicationInstancePreserved)
+            {
+                // The application was tombstoned, so restore its state
+                foreach (var keyValue in PhoneApplicationService.Current.State)
+                {
+                    Components[keyValue.Key] = keyValue.Value as ComponentInformation;
+                }
+
+                // Reconnect to the MSPN
+                PushHandler = new PushHandler(Resources["PushStatus"] as
+         Status, Components, Dispatcher);
+                PushHandler.EstablishConnections();
+            }
+            else if (!PushHandler.ConnectionEstablished)
+            {
+                // Connection was not fully established before fast app 
+                // switching occurred
+                PushHandler.EstablishConnections();
+            }
+
+            RefreshTilesPinState();
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            foreach (var keyValue in Components)
+            {
+                PhoneApplicationService.Current.State[keyValue.Key] =
+                    keyValue.Value;
+            }
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -121,6 +156,96 @@ namespace NotificationsTestClient
                 System.Diagnostics.Debugger.Break();
             }
         }
+
+        /// <summary>
+        /// Whether or not it is necessary to refresh the pin status of 
+        /// the secondary tiles.
+        /// </summary>
+        public bool TileRefreshNeeded { get; set; }
+
+        /// <summary>
+        /// Contains information about the locations displayed by the 
+        /// application.
+        /// </summary>
+        public Dictionary<string, ComponentInformation> Components { get; set; }
+
+        /// <summary>
+        /// Returns the application's dispatcher.
+        /// </summary>
+        public Dispatcher Dispatcher
+        {
+            get
+            {
+                return Deployment.Current.Dispatcher;
+            }
+        }
+
+        private PushHandler PushHandler { get; set; }
+
+        /// <summary>
+        /// Initializes the contents of the components dictionary.
+        /// </summary>
+        private void InitializeComponents()
+        {
+            List<ComponentInformation> componentList = new List<ComponentInformation>(new[] { 
+        new ComponentInformation { Name = "ATT", 
+            TilePinned = false },
+        new ComponentInformation { Name = "Designer", 
+            TilePinned = false },
+        new ComponentInformation { Name = "Import/Export", 
+            TilePinned = false },
+        new ComponentInformation { Name = "Language", 
+            TilePinned = false },
+        new ComponentInformation { Name = "Model", 
+            TilePinned = false }
+    });
+
+            Components = componentList.ToDictionary(l => l.Name);
+        }
+
+        /// <summary>
+        /// Sees which of the application's sub-tiles are pinned and 
+        /// updates the location information accordingly.
+        /// </summary>
+        private void RefreshTilesPinState()
+        {
+            Dictionary<string, ComponentInformation> updateDictionary =
+                Components.Values.ToDictionary(li => li.Name);
+
+            foreach (ShellTile tile in ShellTile.ActiveTiles)
+            {
+                string[] querySplit =
+                    tile.NavigationUri.ToString().Split('=');
+
+                if (querySplit.Count() != 2)
+                {
+                    continue;
+                }
+
+                string locationName =
+                Uri.UnescapeDataString(querySplit[1]);
+                updateDictionary[locationName].TilePinned = true;
+                updateDictionary.Remove(locationName);
+            }
+
+            foreach (ComponentInformation locationInformation in
+                updateDictionary.Values)
+            {
+                locationInformation.TilePinned = false;
+            }
+        }
+
+        /// <summary>
+        /// Writes debug output in debug mode.
+        /// </summary>
+        /// <param name="message">The message to write to debug output.
+        /// </param>
+        internal static void Trace(string message)
+        {
+#if DEBUG
+            Debug.WriteLine(message);
+#endif
+        }    
 
         #region Phone application initialization
 

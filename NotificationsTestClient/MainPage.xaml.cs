@@ -78,7 +78,7 @@ namespace NotificationsTestClient
                 {
                     Trace("Trying to create a new channel...");
                     //Create the channel
-                    httpChannel = new HttpNotificationChannel(channelName, "HOLWeatherService");
+                    httpChannel = new HttpNotificationChannel(channelName, "myService");
                     Trace("New Push Notification channel created successfully");
 
                     SubscribeToChannelEvents();
@@ -110,8 +110,8 @@ namespace NotificationsTestClient
             Trace("Got content: " + content);
 
             project = (from c in document.Descendants("MessageUpdate")
-                           select c.Element("Project").Value).FirstOrDefault();
-            Trace("Got Project: " + project);
+                           select c.Element("Component").Value).FirstOrDefault();
+            Trace("Got Component: " + project);
 
             passRate = (from c in document.Descendants("MessageUpdate")
                         select c.Element("PassRate").Value).FirstOrDefault();

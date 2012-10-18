@@ -36,7 +36,7 @@ namespace Notifications_Server
         {
             InitializeComponent();
             InitializePic();
-            InitializeProjects();
+            InitializeComponents();
             //Log.ItemsSource = trace;
             RegistrationService.Subscribed += new EventHandler<RegistrationService.SubscriptionEventArgs>(RegistrationService_Subscribed);
         }
@@ -80,14 +80,14 @@ namespace Notifications_Server
                 (result) => { }));
         }
 
-        private void sendToast()
+        private void sendToast1()
         {
             //TODO - Add TOAST notifications sending logic here
             string msg = txtToastMessage.Text;
             txtToastMessage.Text = "";
             List<Uri> subscribers = RegistrationService.GetSubscribers();
 
-            toastPushNotificationMessage.Title = "WEATHER ALERT";
+            toastPushNotificationMessage.Title = "Test ALERT";
             toastPushNotificationMessage.SubTitle = msg;
 
             subscribers.ForEach(uri =>
@@ -96,7 +96,25 @@ namespace Notifications_Server
                 (result) => { }));
         }
 
-        private void sendTile()
+        private void sendToast()
+        {
+            //TODO - Add TOAST notifications sending logic here
+            string msg = txtToastMessage.Text;
+            txtToastMessage.Text = "";
+            List<Uri> subscribers = RegistrationService.GetSubscribers();
+
+            toastPushNotificationMessage.Title = String.Format("Test ALERT({0})", cmbProject.SelectedValue);
+            toastPushNotificationMessage.SubTitle = msg;
+            toastPushNotificationMessage.TargetPage = MakeTileUri(cmbProject.SelectedValue.ToString()).ToString();
+
+
+            subscribers.ForEach(uri =>
+                toastPushNotificationMessage.SendAsync(uri,
+                (result) => OnMessageSent(NotificationType.Toast, result),
+                (result) => { }));
+        }
+
+        private void sendTile1()
         {
             //TODO - Add TILE notifications sending logic here
             string picType = cmbPic.SelectedValue as string;
@@ -113,10 +131,37 @@ namespace Notifications_Server
                 (result) => { }));
         }
 
+        private void sendTile()
+        {
+            //TODO - Add TILE notifications sending logic here
+            string picType = cmbPic.SelectedValue as string;
+            int passRate = (int)(sld.Value);
+            string project = cmbProject.SelectedValue as string;
+            List<Uri> subscribers = RegistrationService.GetSubscribers();
+
+            tilePushNotificationMessage.BackgroundImageUri = new Uri("Images/" + picType + ".png", UriKind.Relative);
+            tilePushNotificationMessage.Count = passRate;
+            tilePushNotificationMessage.Title = project;
+            tilePushNotificationMessage.SecondaryTile = MakeTileUri(project).ToString();
+
+
+            subscribers.ForEach(uri => tilePushNotificationMessage.SendAsync(uri,
+                (result) => OnMessageSent(NotificationType.Token, result),
+                (result) => { }));
+        }
+
         private void sendRemoteTile()
         {
             //TODO - Add TILE with remote image URI logic here
         }
+
+        private static Uri MakeTileUri(string locationName)
+        {
+            return new Uri(Uri.EscapeUriString(String.Format(
+                "/ComponentPage.xaml?component={0}",
+                        locationName)), UriKind.Relative);
+        }
+
 
         private static byte[] prepareRAWPayload(string content, string project, string passRate, string picType)
         {
@@ -132,7 +177,7 @@ namespace Notifications_Server
             writer.WriteValue(content);
             writer.WriteEndElement();
 
-            writer.WriteStartElement("Project");
+            writer.WriteStartElement("Component");
             writer.WriteValue(project);
             writer.WriteEndElement();
 
@@ -203,7 +248,7 @@ namespace Notifications_Server
             cmbPic.SelectedIndex = 0;
         }
 
-        private void InitializeProjects()
+        private void InitializeComponents()
         {
             List<string> projects = new List<string>();
             projects.Add("ATT");
