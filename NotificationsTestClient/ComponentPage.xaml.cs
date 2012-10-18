@@ -25,6 +25,9 @@ namespace NotificationsTestClient
             DataContext = (App.Current as App).Components[
                 NavigationContext.QueryString["component"]];
 
+
+            // Request the latest data, as the data we have may not be the latest.
+            (App.Current as App).RequestLatestData(NavigationContext.QueryString["component"]);      
             base.OnNavigatedTo(e);
         }
 

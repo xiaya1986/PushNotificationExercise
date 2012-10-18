@@ -68,6 +68,15 @@ namespace NotificationsTestClient
         private ShellTileSchedule shellTileSchedule;
 
         /// <summary>
+        /// Requests data for a specific location from the application server.
+        /// </summary>
+        /// <param name="locationName">The name of the location for which data is requested.</param>
+        public void RequestLatestData(string componentName)
+        {
+            PushHandler.RequestLatestData(componentName);
+        }
+
+        /// <summary>
         /// Create the application shell tile schedule instance
         /// </summary>
         private void CreateShellTileSchedule()

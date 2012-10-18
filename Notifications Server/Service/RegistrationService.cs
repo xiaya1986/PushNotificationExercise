@@ -8,6 +8,7 @@ namespace Notifications_Server.Service
     public class RegistrationService : IRegistrationService
     {
         public static event EventHandler<SubscriptionEventArgs> Subscribed;
+        public static event EventHandler<DataRequestEventArgs> DataRequested;
 
         private static List<Uri> subscribers = new List<Uri>();
         private static object obj = new object();
@@ -16,6 +17,26 @@ namespace Notifications_Server.Service
         {
             Uri channelUri = new Uri(uri, UriKind.Absolute);
             Subscribe(channelUri);
+        }
+
+        public void RequestData(string componentName, string uri)
+        {
+            Uri channelUri = new Uri(uri, UriKind.Absolute);
+            SignalDataRequested(componentName, channelUri);
+        }
+
+        private void SignalDataRequested(string componentName, Uri channelUri)
+        {
+            lock (obj)
+            {
+                if (subscribers.Exists((u) => u == channelUri))
+                {
+                    if (DataRequested != null)
+                    {
+                        DataRequested(null, new DataRequestEventArgs(componentName, channelUri));
+                    }
+                }
+            }   
         }
 
         public void Unregister(string uri)
@@ -70,6 +91,20 @@ namespace Notifications_Server.Service
 
             public Uri ChannelUri { get; private set; }
             public bool IsActive { get; private set; }
+        }
+        #endregion
+
+        #region Internal DataRequestEventArgs class definition
+        public class DataRequestEventArgs : EventArgs
+        {
+            public DataRequestEventArgs(string componentName, Uri channelUri)
+            {
+                this.ChannelUri = channelUri;
+                this.ComponentName = componentName;
+            }
+
+            public Uri ChannelUri { get; private set; }
+            public string ComponentName { get; private set; }
         }
         #endregion
 
