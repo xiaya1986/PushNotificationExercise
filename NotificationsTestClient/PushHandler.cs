@@ -19,6 +19,8 @@ namespace NotificationsTestClient
 {
     public class PushHandler
     {
+        private object dataRequestSync = new object();
+
         private HttpNotificationChannel httpChannel;
         const string channelName = "NotificationChannel";
 
@@ -26,6 +28,8 @@ namespace NotificationsTestClient
         private bool connectedToServer;
         private bool notificationsBound;
 
+        // Stores components for which data is to be requested once connection to the MSPN is established.
+        private Stack<string> dataRequestComponents = new Stack<string>();
         /// <summary>
         /// Creates a new instance of the class.
         /// </summary>
@@ -151,8 +155,7 @@ namespace NotificationsTestClient
             //Hardcode for solution - need to be updated in case the REST 
             //WCF service address change
             string baseUri = "http://localhost:8000/RegirstatorService/Register?uri={0}";
-            string theUri = String.Format(baseUri,
-                httpChannel.ChannelUri.ToString());
+            string theUri = String.Format(baseUri, httpChannel.ChannelUri.ToString());
             WebClient client = new WebClient();
             client.DownloadStringCompleted += (s, e) =>
             {
@@ -226,6 +229,8 @@ namespace NotificationsTestClient
         {
             connectedToMSPN = true;
 
+            ClearDataRequests();
+
             App.Trace("Channel opened. Got Uri:\n" +
                 httpChannel.ChannelUri.ToString());
             App.Trace("Subscribing to channel events");
@@ -291,6 +296,56 @@ namespace NotificationsTestClient
             string pictype = updateElement.Element("PicType").Value;
             componentInfo.ImageName = pictype;
             App.Trace("Got picture type: " + pictype);
+        }
+
+        private void ClearDataRequests()
+        {
+            while (dataRequestComponents.Count > 0)
+            {
+                RequestLatestData(dataRequestComponents.Pop());
+            }
+        }
+
+                /// <summary>
+        /// Asks the application server to send a raw push notification for the latest data available 
+        /// for a specific component.
+        /// </summary>
+        /// <param name="componentName">The name of the component for which the data is requested.</param>
+        /// <remarks>If a connection to the MSPN has not been established, requests will be queued
+        /// until connection is established.</remarks>
+        public void RequestLatestData(string componentName)
+        {
+            lock (dataRequestSync)
+            {
+                if (!connectedToMSPN)
+                {
+                    dataRequestComponents.Push(componentName);
+                }
+                else
+                {
+                    // In case some requests were not cleared out due to connection timing issues,
+                    // we clear the pending request stack. 
+                    ClearDataRequests();
+                }
+            }
+
+            //Hardcode for solution - needs to be updated in case the REST WCF service address change
+            string baseUri = "http://localhost:8000/RegirstatorService/RequestData?componentName={0}&uri={1}";
+            string theUri = String.Format(baseUri, componentName, httpChannel.ChannelUri.ToString());
+            WebClient client = new WebClient();
+            client.DownloadStringCompleted += (s, e) =>
+            {
+                if (null == e.Error)
+                {
+                    UpdateStatus("Data requested");
+                }
+                else
+                {
+                    UpdateStatus("Error requesting data: " + e.Error.Message);
+                }
+            };
+
+            client.DownloadStringAsync(new Uri(theUri));
         }
     }
 }
