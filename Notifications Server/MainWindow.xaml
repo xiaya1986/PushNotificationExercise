@@ -8,12 +8,12 @@
             <app:ImageUriConverter x:Key="ImageUriConverter"/>
         </Grid.Resources>
 
-        <Button Content="Send RAW" Height="23" HorizontalAlignment="Left" Margin="263,186,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="btnSendRAW_Click"/>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,187,0,0" Name="textBox1" VerticalAlignment="Top" Width="209" />
+        <Button Content="Send RAW" Height="23" HorizontalAlignment="Left" Margin="190,187,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="btnSendRAW_Click"/>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,187,0,0" Name="textBox1" VerticalAlignment="Top" Width="160" />
         <TextBlock x:Name="Status" Text="Status:" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="txtStatus" Text="Unknown"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="41,0,0,0" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,240,0,0" Name="txtToastMessage" VerticalAlignment="Top" Width="209" />
-        <Button Content="Send Toast" Height="23" HorizontalAlignment="Left" Margin="263,240,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="btnSendToast_Click"/>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,240,0,0" Name="txtToastMessage" VerticalAlignment="Top" Width="160" />
+        <Button Content="Send Toast" Height="23" HorizontalAlignment="Left" Margin="190,240,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="btnSendToast_Click"/>
         <Button Content="Send Tile" Height="23" HorizontalAlignment="Left" Margin="380,12,0,0" Name="button3" VerticalAlignment="Top" Width="75" Click="btnSendTile_Click"/>
 
         <Grid Height="128" Margin="12,12,331,170">
@@ -28,5 +28,11 @@
             <TextBlock VerticalAlignment="Bottom" Margin="8,0,0,26" Foreground="White" FontSize="18" FontWeight="Normal" Text="{Binding ElementName=cmbProject, Path=SelectedItem}" />
             <TextBlock VerticalAlignment="Bottom" Margin="8,0,0,12" Foreground="White" FontSize="12" FontWeight="Normal" Text="{Binding ElementName=cmbPic, Path=SelectedItem.Value}" />
         </Grid>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="286,186,0,0" Name="sldTestProgress" VerticalAlignment="Top" Width="100" Maximum="100" />
+        <Slider Height="23" HorizontalAlignment="Left" Margin="286,215,0,0" Name="sldTestCoverage" VerticalAlignment="Top" Width="100" Maximum="100"/>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="286,240,0,0" Name="sldCodeCoverage" VerticalAlignment="Top" Width="100" Maximum="100"/>
+        <Label Content="Test Progress" Height="28" HorizontalAlignment="Right" Margin="0,182,31,0" Name="label1" VerticalAlignment="Top" />
+        <Label Content="Test Coverage" Height="28" HorizontalAlignment="Right" Margin="0,210,27,0" Name="label2" VerticalAlignment="Top" />
+        <Label Content="Code Coverage" Height="28" HorizontalAlignment="Right" Margin="0,235,27,0" Name="label3" VerticalAlignment="Top" />
     </Grid>
 </Window>

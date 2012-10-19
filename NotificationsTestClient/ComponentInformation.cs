@@ -18,6 +18,9 @@ namespace NotificationsTestClient
         private string name;
         private string passRate;
         private string imageName;
+        private string testProgress;
+        private string testCoverage;
+        private string codeCoverage;
 
         public bool TilePinned 
         {
@@ -91,6 +94,61 @@ namespace NotificationsTestClient
                     if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs("PassRate"));
+                    }
+                }
+            }
+        }
+
+        public string TestProgress {
+            get 
+            {
+                return testProgress;
+            }
+            set 
+            {
+                if (value != testProgress)
+                {
+                    testProgress = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("TestProgress"));
+                    }
+                }
+            }
+        }
+
+        public string TestCoverage {
+            get 
+            {
+                return testCoverage;
+            }
+            set 
+            {
+                if (value != testCoverage)
+                {
+                    testCoverage = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("TestCoverage"));
+                    }
+                }
+            }
+        }
+
+        public string CodeCoverage
+        {
+            get 
+            {
+                return codeCoverage;
+            }
+            set 
+            {
+                if (value != codeCoverage)
+                {
+                    codeCoverage = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("CodeCoverage"));
                     }
                 }
             }

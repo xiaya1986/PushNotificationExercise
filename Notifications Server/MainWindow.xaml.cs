@@ -33,6 +33,9 @@ namespace Notifications_Server
         {
             public string PassRate { get; set; }
             public string ImageType { get; set; }
+            public string TestProgress { get; set; }
+            public string TestCoverage { get; set; }
+            public string CodeCoverage { get; set; }
         }
         #endregion
 
@@ -201,45 +204,6 @@ namespace Notifications_Server
                         locationName)), UriKind.Relative);
         }
 
-
-        private static byte[] prepareRAWPayload(string content, string project, string passRate, string picType)
-        {
-            MemoryStream stream = new MemoryStream();
-
-            XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
-            XmlWriter writer = XmlTextWriter.Create(stream, settings);
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("MessageUpdate");
-
-            writer.WriteStartElement("Message");
-            writer.WriteValue(content);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Component");
-            writer.WriteValue(project);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("PassRate");
-            writer.WriteValue(passRate);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("PicType");
-            writer.WriteValue(picType);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("LastUpdated");
-            writer.WriteValue(DateTime.Now.ToString());
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Close();
-
-            byte[] payload = stream.ToArray();
-            return payload;
-        }
-
         private void btnSendRAW_Click(object sender, RoutedEventArgs e)
         {
             sendHttp();
@@ -314,7 +278,7 @@ namespace Notifications_Server
             SentData latestData = componentsSentData[e.ComponentName];
 
             // Send raw message
-            byte[] payload = prepareRAWPayload(e.ComponentName, latestData.PassRate, latestData.ImageType);
+            byte[] payload = prepareRAWPayload(e.ComponentName, latestData.PassRate, latestData.ImageType, latestData.TestProgress, latestData.TestCoverage, latestData.CodeCoverage);
 
             rawPushNotificationMessage.RawData = payload;
 
@@ -334,7 +298,45 @@ namespace Notifications_Server
             tilePushNotificationMessage.SecondaryTile = MakeTileUri(e.ComponentName).ToString();
         }
 
-        private static byte[] prepareRAWPayload(string component, string passRate, string picType)
+        private static byte[] prepareRAWPayload(string content, string component, string passRate, string picType)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
+            XmlWriter writer = XmlTextWriter.Create(stream, settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("MessageUpdate");
+
+            writer.WriteStartElement("Message");
+            writer.WriteValue(content);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("Component");
+            writer.WriteValue(component);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("PassRate");
+            writer.WriteValue(passRate);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("PicType");
+            writer.WriteValue(picType);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("LastUpdated");
+            writer.WriteValue(DateTime.Now.ToString());
+            writer.WriteEndElement();
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+
+            byte[] payload = stream.ToArray();
+            return payload;
+        }
+
+        private static byte[] prepareRAWPayload(string component, string passRate, string picType, string testProgress, string testCoverage, string codeCoverage)
         {
             MemoryStream stream = new MemoryStream();
 
@@ -358,6 +360,18 @@ namespace Notifications_Server
 
             writer.WriteStartElement("LastUpdated");
             writer.WriteValue(DateTime.Now.ToString());
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("TestProgress");
+            writer.WriteValue(testProgress);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("TestCoverage");
+            writer.WriteValue(testCoverage);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("CodeCoverage");
+            writer.WriteValue(codeCoverage);
             writer.WriteEndElement();
 
             writer.WriteEndElement();

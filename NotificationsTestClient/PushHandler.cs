@@ -296,6 +296,18 @@ namespace NotificationsTestClient
             string pictype = updateElement.Element("PicType").Value;
             componentInfo.ImageName = pictype;
             App.Trace("Got picture type: " + pictype);
+
+            string testProgress = updateElement.Element("TestProgress").Value;
+            componentInfo.TestProgress = testProgress;
+            App.Trace("Got Test Progress: " + testProgress);
+
+            string testCoverage = updateElement.Element("TestCoverage").Value;
+            componentInfo.TestCoverage = testCoverage;
+            App.Trace("Got Test Coverage: " + testCoverage);
+
+            string codeCoverage = updateElement.Element("CodeCoverage").Value;
+            componentInfo.CodeCoverage = codeCoverage;
+            App.Trace("Got Code Coverage: " + codeCoverage);
         }
 
         private void ClearDataRequests()
@@ -306,7 +318,7 @@ namespace NotificationsTestClient
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Asks the application server to send a raw push notification for the latest data available 
         /// for a specific component.
         /// </summary>
