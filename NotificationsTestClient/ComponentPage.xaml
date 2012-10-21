@@ -10,9 +10,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -22,26 +22,35 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="334*"/>
+            <RowDefinition Height="196"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
+        <Image Source="cloudbackgroundmobile.jpg" Grid.RowSpan="4" />
         <Grid x:Name="TitleGrid" Grid.Row="0" VerticalAlignment="Top">
-            <TextBlock Text="Test SERVICE" x:Name="textBlockPageTitle" />
+            <TextBlock Text="Test SERVICE" x:Name="textBlockPageTitle" Margin="20,0,0,0" />
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel" Background="#10000000">
             <TextBlock x:Name="textBlockListTitle" FontFamily="Segoe WP Light" FontSize="108" Text="{Binding Name}" Margin="20,10,0,0"/>
-            <TextBlock x:Name="txtPassRate" FontFamily="Segoe WP" FontSize="160" Text="{Binding PassRate}" Margin="20,100,0,0" />
+            <TextBlock x:Name="txtPassRate" FontFamily="Segoe WP" FontSize="120" Text="{Binding PassRate, StringFormat='{}{0:0}%'}" Margin="20,100,0,0" VerticalAlignment="Center"/>
             <Image x:Name="imgType" Width="128" Height="128" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,155,20,0" Source="{Binding ImageName, Converter={StaticResource NameToImageConverter}}" />
         </Grid>
-
-        <StackPanel Grid.Row="3" x:Name="StatusStackPanel" Margin="20">
+        <Grid Grid.Row="2">
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="20,33,0,0" Name="textBlock1" Text="Testing Progress:" VerticalAlignment="Top" FontFamily="Segoe WP Semibold" FontSize="24" Foreground="#0a364c"/>
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="20,82,0,69" Name="textBlock2" Text="Test Coverage:" FontFamily="Segoe WP Semibold" FontSize="24" Foreground="#0a364c"/>
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="20,133,0,0" Name="textBlock3" Text="Code Coverage:" VerticalAlignment="Top" FontFamily="Segoe WP Semibold" FontSize="24" Foreground="#0a364c"/>
+            
+            <ProgressBar Height="43" HorizontalAlignment="Left" Margin="214,33,0,0" Name="progressBar1" VerticalAlignment="Top" Width="177" IsIndeterminate="False" Value="{Binding TestProgress}" />
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="397,30,0,0" Name="txtTestProgress" Text="{Binding TestProgress, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c"/>
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="214,83,0,0" Name="txtTestCoverage" Text="{Binding TestCoverage, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c"/>
+            <TextBlock Height="43" HorizontalAlignment="Left" Margin="214,133,0,0" Name="txtCodeCoverage" Text="{Binding CodeCoverage, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c"/>
+        </Grid>
+            <StackPanel Grid.Row="3" x:Name="StatusStackPanel" Margin="20">
             <TextBlock FontSize="34" FontFamily="Segoe WP Semibold" Foreground="#104f6f" Text="Status" Style="{StaticResource PhoneTextNormalStyle}" />
             <TextBlock x:Name="txtStatus" DataContext="{StaticResource PushStatus}" Text="{Binding Message}" FontFamily="Segoe WP" FontSize="24" Foreground="#0a364c" Margin="0,0,0,0" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" />
         </StackPanel>
-    </Grid>
+        </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>

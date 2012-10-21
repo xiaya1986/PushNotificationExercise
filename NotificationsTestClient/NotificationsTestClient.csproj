@@ -50,7 +50,8 @@
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>C:\Users\Administrator\Desktop\MangoRTMTK_Basic\Labs\PushServices\Source\Assets\Lib\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <HintPath>C:\Users\Administrator\Desktop\Source\Assets\Lib\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="System.Windows" />
@@ -110,8 +111,9 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="CloudBackgroundMobile.jpg" />
     <Content Include="Images\Chance_Of_Showers.png" />
-    <Content Include="Images\Clear.png" />
+    <Resource Include="Images\Clear.png" />
     <Content Include="Images\Cloudy.png" />
     <Content Include="Images\Cloudy_Period.png" />
     <Content Include="Images\Cloudy_With_Dizzle.png" />

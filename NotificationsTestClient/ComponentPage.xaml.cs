@@ -30,10 +30,5 @@ namespace NotificationsTestClient
             (App.Current as App).RequestLatestData(NavigationContext.QueryString["component"]);      
             base.OnNavigatedTo(e);
         }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

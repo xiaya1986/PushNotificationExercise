@@ -103,7 +103,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Chance_Of_Showers.png" />
     <Resource Include="Images\Clear.png" />

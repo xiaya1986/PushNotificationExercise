@@ -87,10 +87,13 @@ namespace Notifications_Server
             //Get the list of subscribed WP7 clients
             List<Uri> subscribers = RegistrationService.GetSubscribers();
             //Prepare payload
-            byte[] payload = prepareRAWPayload(textBox1.Text,
+            byte[] payload = prepareRAWPayload(
                 cmbProject.SelectedValue as string,
                 sld.Value.ToString("F1"),
-                cmbPic.SelectedValue as string);
+                cmbPic.SelectedValue as string,
+                sldTestProgress.Value.ToString("F1"),
+                sldTestCoverage.Value.ToString("F1"),
+                sldCodeCoverage.Value.ToString("F1"));
 
             rawPushNotificationMessage.RawData = payload;
             subscribers.ForEach(uri => rawPushNotificationMessage.SendAsync(uri,
@@ -103,7 +106,10 @@ namespace Notifications_Server
             componentsSentData[cmbProject.SelectedValue as string] = new SentData
             {
                 PassRate = sld.Value.ToString("F1"),
-                ImageType = cmbPic.SelectedValue as string
+                ImageType = cmbPic.SelectedValue as string,
+                TestProgress = sldTestProgress.Value.ToString("F1"),
+                TestCoverage = sldTestCoverage.Value.ToString("F1"),
+                CodeCoverage = sldCodeCoverage.Value.ToString("F1")
             };
         }
 
@@ -248,6 +254,7 @@ namespace Notifications_Server
             weather.Add("Thunderstorms", "Thunderstorms");
             weather.Add("Wet_Flurries", "Wet Flurries");
             weather.Add("Wet_Flurries_Night", "Wet Flurries Night");
+            weather.Add("loading", "loading");
 
             cmbPic.ItemsSource = weather;
             cmbPic.DisplayMemberPath = "Value";
