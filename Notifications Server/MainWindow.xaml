@@ -31,8 +31,8 @@
         <Slider Height="23" HorizontalAlignment="Left" Margin="286,186,0,0" Name="sldTestProgress" VerticalAlignment="Top" Width="100" Maximum="100" />
         <Slider Height="23" HorizontalAlignment="Left" Margin="286,215,0,0" Name="sldTestCoverage" VerticalAlignment="Top" Width="100" Maximum="100"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="286,240,0,0" Name="sldCodeCoverage" VerticalAlignment="Top" Width="100" Maximum="100"/>
-        <Label Content="Test Progress" Height="28" HorizontalAlignment="Right" Margin="0,182,31,0" Name="label1" VerticalAlignment="Top" />
-        <Label Content="Test Coverage" Height="28" HorizontalAlignment="Right" Margin="0,210,27,0" Name="label2" VerticalAlignment="Top" />
-        <Label Content="Code Coverage" Height="28" HorizontalAlignment="Right" Margin="0,235,27,0" Name="label3" VerticalAlignment="Top" />
+        <TextBlock Text="{Binding ElementName=sldTestProgress, Path=Value, StringFormat='{}{0:0}%'}" Height="28" HorizontalAlignment="Right" Margin="0,186,94,0" Name="label1" VerticalAlignment="Top" />
+        <TextBlock Text="{Binding ElementName=sldTestCoverage, Path=Value, StringFormat='{}{0:0}%'}" Height="28" HorizontalAlignment="Right" Margin="0,210,94,0" Name="label2" VerticalAlignment="Top" />
+        <TextBlock Text="{Binding ElementName=sldCodeCoverage, Path=Value, StringFormat='{}{0:0}%'}" Height="28" HorizontalAlignment="Right" Margin="0,235,94,0" Name="label3" VerticalAlignment="Top" />
     </Grid>
 </Window>

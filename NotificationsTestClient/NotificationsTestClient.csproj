@@ -72,6 +72,7 @@
     <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\NameToImageConverter.cs" />
+    <Compile Include="Converters\DoubleToVisibilityConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,28 +113,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="CloudBackgroundMobile.jpg" />
-    <Content Include="Images\Chance_Of_Showers.png" />
-    <Resource Include="Images\Clear.png" />
-    <Content Include="Images\Cloudy.png" />
-    <Content Include="Images\Cloudy_Period.png" />
-    <Content Include="Images\Cloudy_With_Dizzle.png" />
-    <Content Include="Images\Few_Flurries.png" />
-    <Content Include="Images\Few_Flurries_Night.png" />
-    <Content Include="Images\Few_Showers.png" />
-    <Content Include="Images\Flurries.png" />
-    <Content Include="Images\Fog.png" />
-    <Content Include="Images\Freezing_Rain.png" />
-    <Content Include="Images\Mostly_Cloudy.png" />
-    <Content Include="Images\Mostly_Sunny.png" />
-    <Content Include="Images\Rain.png" />
-    <Content Include="Images\Rain_Or_Snow.png" />
-    <Content Include="Images\Risk_Of_Thundershowers.png" />
-    <Content Include="Images\Snow.png" />
-    <Content Include="Images\Sunny.png" />
-    <Content Include="Images\Thunderstorms.png" />
-    <Content Include="Images\Thunder_Showers.png" />
-    <Content Include="Images\Wet_Flurries.png" />
-    <Content Include="Images\Wet_Flurries_Night.png" />
+    <Content Include="Images\Clear.png" />
+    <Content Include="Images\Clear1.png" />
+    <Content Include="Images\Failed.png" />
+    <Content Include="Images\In_Progress.png" />
+    <Content Include="Images\Passed.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />

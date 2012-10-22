@@ -201,7 +201,7 @@ namespace NotificationsTestClient
             TilePinned = false },
         new ComponentInformation { Name = "Designer", 
             TilePinned = false },
-        new ComponentInformation { Name = "Import/Export", 
+        new ComponentInformation { Name = "Import", 
             TilePinned = false },
         new ComponentInformation { Name = "Language", 
             TilePinned = false },

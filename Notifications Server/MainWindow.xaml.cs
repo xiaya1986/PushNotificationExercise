@@ -231,32 +231,13 @@ namespace Notifications_Server
 
         private void InitializePic()
         {
-            Dictionary<string, string> weather = new Dictionary<string, string>();
-            weather.Add("Chance_Of_Showers", "Chance Of Showers");
-            weather.Add("Clear", "Clear");
-            weather.Add("Cloudy", "Cloudy");
-            weather.Add("Cloudy_Period", "Cloudy Period");
-            weather.Add("Cloudy_With_Drizzle", "Cloudy With Drizzle");
-            weather.Add("Few_Flurries", "Few Flurries");
-            weather.Add("Few_Flurries_Night", "Few Flurries Night");
-            weather.Add("Few_Showers", "Few Showers");
-            weather.Add("Flurries", "Flurries");
-            weather.Add("Fog", "Fog");
-            weather.Add("Freezing_Rain", "Freezing Rain");
-            weather.Add("Mostly_Cloudy", "Mostly Cloudy");
-            weather.Add("Mostly_Sunny", "Mostly Sunny");
-            weather.Add("Rain", "Rain");
-            weather.Add("Rain_Or_Snow", "Rain Or Snow");
-            weather.Add("Risk_Of_Thundershowers", "Risk Of Thundershowers");
-            weather.Add("Snow", "Snow");
-            weather.Add("Sunny", "Sunny");
-            weather.Add("Thunder_Showers", "Thunder Showers");
-            weather.Add("Thunderstorms", "Thunderstorms");
-            weather.Add("Wet_Flurries", "Wet Flurries");
-            weather.Add("Wet_Flurries_Night", "Wet Flurries Night");
-            weather.Add("loading", "loading");
+            Dictionary<string, string> pictures = new Dictionary<string, string>();
+            pictures.Add("Passed", "Passed");
+            pictures.Add("Failed", "Failed");
+            pictures.Add("Clear", "Clear");
+            pictures.Add("In_Progress", "In_Progress");
 
-            cmbPic.ItemsSource = weather;
+            cmbPic.ItemsSource = pictures;
             cmbPic.DisplayMemberPath = "Value";
             cmbPic.SelectedValuePath = "Key";
             cmbPic.SelectedIndex = 0;
@@ -266,7 +247,7 @@ namespace Notifications_Server
         {
             List<string> projects = new List<string>();
             projects.Add("ATT");
-            projects.Add("Import/Export");
+            projects.Add("Import");
             projects.Add("Model");
             projects.Add("Language");
             projects.Add("Designer");

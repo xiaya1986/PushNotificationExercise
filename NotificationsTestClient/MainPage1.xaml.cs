@@ -52,7 +52,7 @@ namespace NotificationsTestClient
 
             StandardTileData initialData = new StandardTileData()
             {
-                BackgroundImage = new Uri("Images/Clear.png", UriKind.Relative),
+                BackgroundImage = new Uri("Images/Clear1.png", UriKind.Relative),
                 Title = componentInformation.Name
             };
 

@@ -18,6 +18,8 @@ namespace NotificationsTestClient
         public ComponentPage()
         {
             InitializeComponent();
+            //progressBar1.Visibility = System.Windows.Visibility.Collapsed;
+
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -30,5 +32,19 @@ namespace NotificationsTestClient
             (App.Current as App).RequestLatestData(NavigationContext.QueryString["component"]);      
             base.OnNavigatedTo(e);
         }
+
+        private void txtTestProgress_TextInputUpdate(object sender, TextCompositionEventArgs e)
+        {
+            //var progress = Convert.ToDouble(this.txtTestProgress.Text.TrimEnd('%'));
+            //if ((0 == progress) || (100 == progress))
+            //{
+            //    progressBar1.Visibility = System.Windows.Visibility.Collapsed;
+            //}
+            //else
+            //{
+            //    progressBar1.Visibility = System.Windows.Visibility.Visible;
+            //}
+        }
+
     }
 }
