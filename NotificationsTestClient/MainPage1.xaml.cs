@@ -45,14 +45,13 @@ namespace NotificationsTestClient
 
         private void PinItem_Click(object sender, RoutedEventArgs e)
         {
-            ComponentInformation componentInformation =
-         (sender as MenuItem).DataContext as ComponentInformation;
+            ComponentInformation componentInformation = (sender as MenuItem).DataContext as ComponentInformation;
 
             Uri tileUri = MakeTileUri(componentInformation);
 
             StandardTileData initialData = new StandardTileData()
             {
-                BackgroundImage = new Uri("Images/Clear1.png", UriKind.Relative),
+                BackgroundImage = new Uri("Images/Clear.png", UriKind.Relative),
                 Title = componentInformation.Name
             };
 
@@ -107,6 +106,44 @@ namespace NotificationsTestClient
         {
             return new Uri(Uri.EscapeUriString(String.Format("/ComponentPage.xaml?component={0}",
                componentInformation.Name)), UriKind.Relative);
+        }
+
+        private void UnpinAllItems_Click(object sender, EventArgs e)
+        {
+            List<ComponentInformation> allComponents = new List<ComponentInformation>();
+            foreach (ComponentInformation item in tileList.ItemsSource)
+            {
+                if (item.TilePinned)
+                {
+                    allComponents.Add(item);
+                }
+            }
+
+            foreach (ComponentInformation item in allComponents)
+            {
+                ShellTile tile = ShellTile.ActiveTiles.FirstOrDefault(
+                            t => t.NavigationUri.ToString().EndsWith(
+                            item.Name));
+
+                if (tile == null)
+                {
+                    MessageBox.Show("Tile inconsistency detected. It is suggested that you restart the application.");
+                    return;
+                }
+
+                try
+                {
+                    tile.Delete();
+                    item.TilePinned = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error deleting tile",
+                    MessageBoxButton.OK);
+                    return;
+                }
+            }
+        
         }
     }
 }

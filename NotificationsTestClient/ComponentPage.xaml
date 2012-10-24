@@ -29,13 +29,13 @@
         </Grid.RowDefinitions>
         <Image Source="cloudbackgroundmobile.jpg" Grid.RowSpan="4" />
         <Grid x:Name="TitleGrid" Grid.Row="0" VerticalAlignment="Top">
-            <TextBlock Text="Test SERVICE" x:Name="textBlockPageTitle" Margin="20,0,0,0" />
+            <TextBlock Text="Unit Testing Service" x:Name="textBlockPageTitle" Margin="20,0,0,0" FontFamily="Segoe WP Semibold" Foreground="#104f6f"/>
         </Grid>
 
         <Grid Grid.Row="1" x:Name="ContentPanel" Background="#10000000">
             <TextBlock x:Name="textBlockListTitle" FontFamily="Segoe WP Light" FontSize="108" Text="{Binding Name}" Margin="20,10,0,0"/>
             <TextBlock x:Name="txtPassRate" FontFamily="Segoe WP" FontSize="120" Text="{Binding PassRate, StringFormat='{}{0:0}%'}" Margin="20,100,0,0" VerticalAlignment="Center"/>
-            <Image x:Name="imgType" Width="128" Height="128" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,155,20,0" Source="{Binding ImageName, Converter={StaticResource NameToImageConverter}}" />
+            <Image x:Name="imgType" Width="128" Height="128" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,175,20,0" Source="{Binding ImageName, Converter={StaticResource NameToImageConverter}}" />
             <!--<Image x:Name="imgType" Width="128" Height="128" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,155,20,0" Source="{Binding ImageName, Converter={StaticResource DoubleToVisibilityConverter}}" />-->
         </Grid>
         <Grid Grid.Row="2">
@@ -43,7 +43,7 @@
             <TextBlock Height="43" HorizontalAlignment="Left" Margin="20,82,0,69" Name="textBlock2" Text="Test Coverage:" FontFamily="Segoe WP Semibold" FontSize="24" Foreground="#0a364c"/>
             <TextBlock Height="43" HorizontalAlignment="Left" Margin="20,133,0,0" Name="textBlock3" Text="Code Coverage:" VerticalAlignment="Top" FontFamily="Segoe WP Semibold" FontSize="24" Foreground="#0a364c"/>
 
-            <ProgressBar Height="43" HorizontalAlignment="Left" Margin="270,33,0,0" Name="progressBar1" VerticalAlignment="Top" Width="190" IsIndeterminate="true" Visibility="{Binding TestProgress, Converter={StaticResource DoubleToVisibilityConverter}}"/>
+            <ProgressBar Height="43" HorizontalAlignment="Left" Margin="253,33,0,0" Name="progressBar1" VerticalAlignment="Top" Width="227" IsIndeterminate="true" Visibility="{Binding TestProgress, Converter={StaticResource DoubleToVisibilityConverter}}"/>
             <TextBlock Height="43" HorizontalAlignment="Left" Margin="214,33,0,0" Name="txtTestProgress" Text="{Binding TestProgress, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c" />
             <TextBlock Height="43" HorizontalAlignment="Left" Margin="214,83,0,0" Name="txtTestCoverage" Text="{Binding TestCoverage, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c"/>
             <TextBlock Height="43" HorizontalAlignment="Left" Margin="214,133,0,0" Name="txtCodeCoverage" Text="{Binding CodeCoverage, StringFormat='{}{0:0}%'}" VerticalAlignment="Top" FontSize="24" Foreground="#0a364c"/>

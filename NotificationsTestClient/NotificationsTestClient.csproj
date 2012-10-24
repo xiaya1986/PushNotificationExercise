@@ -106,15 +106,10 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="ApplicationIcon.png" />
+    <Content Include="Background.png" />
     <Resource Include="CloudBackgroundMobile.jpg" />
     <Content Include="Images\Clear.png" />
-    <Content Include="Images\Clear1.png" />
     <Content Include="Images\Failed.png" />
     <Content Include="Images\In_Progress.png" />
     <Content Include="Images\Passed.png" />

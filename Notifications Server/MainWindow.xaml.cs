@@ -232,10 +232,9 @@ namespace Notifications_Server
         private void InitializePic()
         {
             Dictionary<string, string> pictures = new Dictionary<string, string>();
+            pictures.Add("In_Progress", "In_Progress");
             pictures.Add("Passed", "Passed");
             pictures.Add("Failed", "Failed");
-            pictures.Add("Clear", "Clear");
-            pictures.Add("In_Progress", "In_Progress");
 
             cmbPic.ItemsSource = pictures;
             cmbPic.DisplayMemberPath = "Value";

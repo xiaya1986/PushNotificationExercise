@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{d76e396d-18a1-4274-82f7-e4456007e927}" Title="NotificationsTestClient" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="NotificationsTestClient author" Description="Sample description" Publisher="NotificationsTestClient">
+  <App xmlns="" ProductID="{d76e396d-18a1-4274-82f7-e4456007e927}" Title="TAS Client" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="NotificationsTestClient author" Description="Sample description" Publisher="NotificationsTestClient">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES"/>
@@ -27,7 +27,7 @@
         <TemplateType5>
           <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>NotificationsTestClient</Title>
+          <Title>TAS Client</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>
