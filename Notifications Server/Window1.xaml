@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Notifications_Server.Window1"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Window1" Height="358" Width="558">
+        Title="TAS Notifications Server" Height="358" Width="558">
     <Grid>
         <TextBlock x:Name="Status" Text="Status:" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="txtStatus" Text="Unknown"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="41,0,0,0" />
