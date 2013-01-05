@@ -113,6 +113,8 @@
     <Content Include="Images\Failed.png" />
     <Content Include="Images\In_Progress.png" />
     <Content Include="Images\Passed.png" />
+    <Content Include="Lib\Microsoft.Phone.Controls.Toolkit.dll" />
+    <Content Include="Lib\WindowsPhone.Recipes.Push.Messasges.dll" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />
